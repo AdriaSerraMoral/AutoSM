@@ -1,0 +1,17 @@
+# ignore build directory
+build/
+
+#ignore bin directory
+bin/
+
+#ignore third_party library
+third_party/
+
+# Qt creator project residual files
+*.config
+*.creator*
+*.files
+*.includes
+*.user
+
+
