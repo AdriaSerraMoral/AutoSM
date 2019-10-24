@@ -1,0 +1,12 @@
+<!-- for world simulation -->
+
+<launch>
+
+<node name="world_simulation_node" pkg="world_simulation" type="world_simulation_node" output="screen">
+
+</node>
+
+<node name="rviz" pkg="rviz" type="rviz" />
+
+
+</launch>

@@ -1,0 +1,8 @@
+prefix=/home/adria/AutoSM/catkin_ws/devel
+
+Name: world_simulation
+Description: Description of world_simulation
+Version: 0.0.0
+Cflags: -I/home/adria/AutoSM/catkin_ws/src/world_simulation/include
+Libs: -L/home/adria/AutoSM/catkin_ws/devel/lib 
+Requires: roscpp rospy rviz std_msgs
