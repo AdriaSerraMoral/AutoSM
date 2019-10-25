@@ -12,10 +12,9 @@
 
 #pragma once
 
-#include <Eigen/Dense> 
-#include <cmath>
+#include "common/types.h"
 
-
+namespace AutoSM { 
 namespace math {
 	
 
@@ -169,4 +168,26 @@ namespace math {
 		 return Omega;
 	}
 
-}
+	/**
+	 *	@brief	sign
+	 * 
+	 * 					returns 1 if positive, -1 if negative, 0 otherwise
+	 */
+	template<class T>
+	constexpr T sign(const T& x) {
+	    return ((x) < (0) ? (-1) : ((x) > (0) ? (1) : (0)));
+	}
+
+	/**
+	 *	@brief	inRange
+	 *
+	 * 					Returns true if given value x is within the closed interval [x1,x2], 
+	 *					otherwise returns false.
+	 */
+	template<class T>
+	constexpr bool inRange(const T &x, const T &x1, const T &x2) {
+	    return ((x) <= (x2) && (x) >= (x1) ? true : false);
+	}
+
+} // namespace math
+} // namespace AutoSM
