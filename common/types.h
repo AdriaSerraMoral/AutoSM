@@ -24,6 +24,7 @@
 #include <cmath>
 #include <random>
 #include <memory>
+#include <queue>
 
 #include "constants.h"
 
@@ -314,23 +315,26 @@ struct ControllerStates {
 	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
 	// Error in states
-	Vec3d							e_att_BG								{	Vec3d::Zero()	};
-	Vec3d							e_w_b_B	 								{	Vec3d::Zero()	};
-	Vec3d							e_pos_b_G								{	Vec3d::Zero()	};
-	Vec3d							e_vel_b_G								{	Vec3d::Zero()	};
+    Vec3d							e_att_BG				{	Vec3d::Zero()	};
+    Vec3d							e_w_b_B	 				{	Vec3d::Zero()	};
+    Vec3d							e_pos_b_G				{	Vec3d::Zero()	};
+    Vec3d							e_vel_b_G				{	Vec3d::Zero()	};
 
-	double						OmegaR									{	0.0	};
+    double                          OmegaR					{	0.0	};
 
-	Eigen::Vector3i		windup_att							{	Eigen::Vector3i::Ones()	};
-	Eigen::Vector3i		windup_pos							{	Eigen::Vector3i::Ones()	};
-	Eigen::Vector3i		windup_vel							{	Eigen::Vector3i::Ones()	};
+    Eigen::Vector3i                 windup_att				{	Eigen::Vector3i::Ones()	};
+    Eigen::Vector3i                 windup_pos				{	Eigen::Vector3i::Ones()	};
+    Eigen::Vector3i                 windup_vel				{	Eigen::Vector3i::Ones()	};
 
-	Vec3d							int_att_BG							{	Vec3d::Zero()	};
-	Vec3d							int_pos_b_G							{	Vec3d::Zero()	};
-	Vec3d							int_vel_b_G							{	Vec3d::Zero()	};
+    Vec3d							int_att_BG				{	Vec3d::Zero()	};
+    Vec3d							int_pos_b_G				{	Vec3d::Zero()	};
+    Vec3d							int_vel_b_G				{	Vec3d::Zero()	};
 
-	bool 							dynamicsSaturated				{	false	};
-	bool							controlSaturated				{	false	};
+    bool 							dynamicsSaturated		{	false	};
+    bool							controlSaturated		{	false	};
+
+    double                          dt                      {   constants::MIN_DIVD };
+    double                          time_prev               {   0.0 };
 
 };
 
