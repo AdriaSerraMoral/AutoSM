@@ -99,9 +99,13 @@ add_library(
 	common/constants.h
 	common/types.h
 
+	searching/tree_search.cpp
+
 	simulation/dynamical_system.cpp
 	simulation/sensor_models.cpp
 	simulation/vehicle_models.cpp
+
+        guidance/astarplanner.cpp
 
 	control/controllers.cpp
 
