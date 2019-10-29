@@ -161,12 +161,36 @@ namespace control {
 	 *	
 	 *					Constructor, connects pointers and defines number of inputs
 	 */
-	MRAC::MRAC( const int n_control, VehicleStates* statePtr, TrajectoryCommand* trajPtr, 
+    DroneMRAC::DroneMRAC( const int n_control, VehicleStates* statePtr, TrajectoryCommand* trajPtr,
 			ControllerStates* ctrlStatePtr ) :
 		ControllerBase(n_control, statePtr, trajPtr) {}
 
 
+    /**
+     *	@brief	controlPosition
+     *
+     *					get Force required to move to desired trajectory (linear dynamcis)
+     */
+    void DroneMRAC::controlPosition( ) {
 
+        // Get the position error in the Global frame
+        ctrl_states_ptr->e_pos_b_G = traj_ptr->pos_b_G - vehicle_states_ptr->pos_b_G;
+
+        // Get the velocity error in the Global Frame
+        ctrl_states_ptr->e_vel_b_G = traj_ptr->vel_b_G - vehicle_states_ptr->vel_b_G;
+
+        // Integrate the position error in each axis
+        // Get the required acceleration in each axis
+        for(size_t idx=0; idx < 3; idx++) {
+            // Integrate position error
+            ctrl_states_ptr->int_pos_b_G(idx) += ctrl_states_ptr->e_pos_b_G(idx) * ctrl_states_ptr->dt * ctrl_states_ptr->windup_pos(idx);
+
+            // Integrate velocity error
+            ctrl_states_ptr->int_vel_b_G(idx) += ctrl_states_ptr->e_vel_b_G(idx) * ctrl_states_ptr->dt * ctrl_states_ptr->windup_vel(idx);
+
+        }
+
+    }
 
 }
 }

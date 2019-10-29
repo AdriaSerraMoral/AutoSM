@@ -171,20 +171,22 @@ namespace control {
 	 *
 	 *					Adaptive Elements can be an Integrator or Network
 	 */
-	class MRAC : public ControllerBase {
+    class DroneMRAC : public ControllerBase {
 	public:
 		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-		MRAC( const int n_control, VehicleStates* statePtr, TrajectoryCommand* trajPtr, 
+        DroneMRAC( const int n_control, VehicleStates* statePtr, TrajectoryCommand* trajPtr,
 			ControllerStates* ctrlStatePtr = nullptr  );
-		~MRAC() = default;
+        ~DroneMRAC() = default;
 
-		// /**
-		//  *	@brief	controlPosition
-		//  *
-		//  *					get Force required to move to desired trajectory (linear dynamcis)
-		//  */
-		// void		controlPosition( ) override;
+        enum AdaptiveScheme { INTEGRATOR = 0, NN = 1 };
+
+         /**
+          *	@brief	controlPosition
+          *
+          *					get Force required to move to desired trajectory (linear dynamcis)
+          */
+         void controlPosition( ) override;
 		// VecXd		controlPosition( TrajectoryCommand*	traj_ptr ) override;
 
 		// /**
@@ -220,6 +222,25 @@ namespace control {
 		// void initializeController( const RigidBodyParams& rigid_body, const ControllerGains& gains, 
 		// 																	 const DynamicLimits& limits ) override;
 
+        void   getNuAdaptivePos();
+        void   getNuAdaptiveVel();
+        void   getNuAdaptiveAtt();
+
+    private:
+
+         // Pseudocontrol signals ($\nu$)
+
+         // Inner-Loop (IL) -> Angular Dynamics
+         Vec3d          alpha_h_IL          {Vec3d::Zero()};        ///< From Hedging PCH
+         Vec3d          alpha_ref_IL        {Vec3d::Zero()};        ///< From Reference Model
+         Vec3d          alpha_lc_IL         {Vec3d::Zero()};        ///< From Linear Compensator
+         Vec3d          alpha_ad_IL         {Vec3d::Zero()};        ///< From Adaptive Element
+
+         // Outer-Loop (OL) -> Linear Dynamics
+         Vec3d          acc_h_OL            {Vec3d::Zero()};        ///< From Hedging PCH
+         Vec3d          acc_ref_OL          {Vec3d::Zero()};        ///< From Reference Model
+         Vec3d          acc_lc_OL           {Vec3d::Zero()};        ///< From Linear Compensator
+         Vec3d          acc_ad_OL           {Vec3d::Zero()};        ///< From Adaptive Element
 
 
 	};
